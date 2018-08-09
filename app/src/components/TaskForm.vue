@@ -4,7 +4,7 @@
       <v-flex xs12>
         <v-card>
           <v-card-media
-            src="https://colterreed.com/wp-content/uploads/2015/10/Abhaken-einer-Todoliste.jpeg"
+            :src="require('../assets/bg-card-add-task.jpeg')"
             height="200px"
           ></v-card-media>
           <form class="pa-4">
