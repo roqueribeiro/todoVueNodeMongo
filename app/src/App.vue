@@ -22,6 +22,7 @@
     </v-navigation-drawer>
     <v-toolbar
       app
+      color="blue-grey darken-1" dark
       :clipped-left="clipped"
     >
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>

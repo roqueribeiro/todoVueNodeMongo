@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <v-container fluid>
+    <v-container xs12>
       <TaskForm />
       <TaskList />
     </v-container>

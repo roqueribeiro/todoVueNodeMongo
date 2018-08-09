@@ -3,7 +3,10 @@
     <v-layout row wrap>
       <v-flex xs12>
         <v-card>
-          <v-progress-linear v-if="loading" color="info" :indeterminate="true"></v-progress-linear>
+          <v-card-media
+            src="https://colterreed.com/wp-content/uploads/2015/10/Abhaken-einer-Todoliste.jpeg"
+            height="200px"
+          ></v-card-media>
           <form class="pa-4">
             <v-text-field
               v-validate="'required|max:150'"
@@ -31,6 +34,7 @@
             <v-btn color="info" @click="submit" :disabled="loading">submit</v-btn>
             <v-btn @click="clear" :disabled="loading">clear</v-btn>
           </form>
+          <v-progress-linear v-if="loading" color="info" :indeterminate="true"></v-progress-linear>
         </v-card>
       </v-flex>
     </v-layout>
