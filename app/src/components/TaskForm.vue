@@ -2,28 +2,34 @@
   <v-container fluid>
     <v-layout row wrap>
       <v-flex xs12>
-        <v-card class="pa-4">
-          <form>
+        <v-card>
+          <v-progress-linear v-if="loading" color="info" :indeterminate="true"></v-progress-linear>
+          <form class="pa-4">
             <v-text-field
               v-validate="'required|max:150'"
               v-model="name"
               :counter="150"
               :error-messages="errors.collect('name')"
+              :disabled="loading"
               label="Task"
               data-vv-name="name"
               required
             ></v-text-field>
             <v-select
+              prepend-icon="info"
               v-validate="'required'"
               :items="items"
               v-model="status"
-              :error-messages="errors.collect('status')"
               label="Status"
+              item-text="label"
+              item-value="value"
               data-vv-name="status"
+              :error-messages="errors.collect('status')"
+              :disabled="loading"
               required
             ></v-select>
-            <v-btn @click="submit">submit</v-btn>
-            <v-btn @click="clear">clear</v-btn>
+            <v-btn color="info" @click="submit" :disabled="loading">submit</v-btn>
+            <v-btn @click="clear" :disabled="loading">clear</v-btn>
           </form>
         </v-card>
       </v-flex>
@@ -40,9 +46,14 @@ Vue.use(VeeValidate);
 export default {
   name: "TaskForm",
   data: () => ({
+    loading: false,
     name: "",
     status: null,
-    items: ["pending", "ongoing", "completed"],
+    items: [
+      { label: "Pending", value: "pending" },
+      { label: "Ongoing", value: "ongoing" },
+      { label: "Completed", value: "completed" }
+    ],
     dictionary: {
       custom: {
         name: {
@@ -57,20 +68,25 @@ export default {
   }),
   methods: {
     submit() {
-      if (this.$validator.validateAll()) {
-        const params = new URLSearchParams();
-        params.append("name", this.name);
-        params.append("value", this.status);
-        axios
-          .post("http://localhost:3000/tasks", params)
-          .then(response => {
-            this.refreshTodo();
-            this.tasks = response.data;
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      }
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          this.loading = true;
+          const params = new URLSearchParams();
+          params.append("name", this.name);
+          params.append("status", this.status);
+          axios
+            .post("http://localhost:3000/tasks", params)
+            .then(response => {
+              this.loading = false;
+              this.refreshTodo();
+            })
+            .catch(e => {
+              this.loading = false;
+              console.error(e);
+            });
+          return;
+        }
+      });
     },
     clear() {
       this.name = "";

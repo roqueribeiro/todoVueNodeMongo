@@ -1,7 +1,9 @@
 <template>
   <div class="home">
-    <TaskForm />
-    <TaskList />
+    <v-container fluid>
+      <TaskForm />
+      <TaskList />
+    </v-container>
   </div>
 </template>
 
