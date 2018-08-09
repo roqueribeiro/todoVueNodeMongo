@@ -1,0 +1,22 @@
+{
+  "name": "todovuenodemongo",
+  "version": "1.0.0",
+  "description": "Simple todo list application with MongoDB",
+  "main": "server.js",
+  "scripts": {
+    "prestart": "mkdir -p ./mongo/todoListDatabase; mongo admin --eval 'db.shutdownServer()' > ./mongo/dev/null; mongod --dbpath ./mongo/todoListDatabase --port 27017 --fork --logpath ./mongo/dev/null",
+    "start": "nodemon ./server.js",
+    "pretest": "mkdir -p ./mongo/todoListDatabase; mongo admin --eval 'db.shutdownServer()' > ./mongo/dev/null; mongod --dbpath ./mongo/todoListDatabase --port 27017 --fork --logpath ./mongo/dev/null",
+    "test": "nodemon -q --exec nyc --reporter=text --reporter=html jasmine server.test.js"
+  },
+  "author": "Roque Ribeiro",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "frisby": "^2.1.0",
+    "jasmine": "^3.1.0",
+    "mongoose": "^5.2.7",
+    "nyc": "^12.0.2"
+  }
+}
