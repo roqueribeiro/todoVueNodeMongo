@@ -51,11 +51,11 @@ export default {
           title: "To Do List",
           to: "/"
         },
-        {
-          icon: "info",
-          title: "About Application",
-          to: "/About"
-        }
+        // {
+        //   icon: "info",
+        //   title: "About Application",
+        //   to: "/About"
+        // }
       ],
       title: "To Do List Application"
     };
