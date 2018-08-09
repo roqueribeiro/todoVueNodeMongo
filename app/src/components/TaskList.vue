@@ -38,6 +38,7 @@
 <script>
 import Vue from "vue";
 import VeeValidate from "vee-validate";
+import bus from './../bus.js'
 Vue.use(VeeValidate);
 
 export default {
@@ -55,19 +56,23 @@ export default {
     }
   }),
   mounted() {
-    axios
-      .get("http://localhost:3000/tasks", { responseType: "json" })
-      .then(
-        response =>
-          (this.tasks = response.data.sort((a, b) => {
-            return new Date(b.created) - new Date(a.created);
-          }))
-      )
-      .catch(e => {
-        console.log(e);
-      });
+    this.loadTasks();
+    this.listenToEvents();
   },
   methods: {
+    loadTasks() {
+      axios
+        .get("http://localhost:3000/tasks", { responseType: "json" })
+        .then(
+          response =>
+            (this.tasks = response.data.sort((a, b) => {
+              return new Date(b.created) - new Date(a.created);
+            }))
+        )
+        .catch(e => {
+          console.log(e);
+        });
+    },
     changeStatus() {
       this.$validator.validateAll();
     },
@@ -78,6 +83,11 @@ export default {
         .catch(e => {
           console.log(e);
         });
+    },
+    listenToEvents() {
+      bus.$on("refreshTodo", $event => {
+        this.loadTasks();
+      });
     }
   }
 };
